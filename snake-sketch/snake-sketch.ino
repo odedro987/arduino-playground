@@ -45,6 +45,10 @@ bool justReleased(int key) {
   return currStates[key] == LOW && prevStates[key] == HIGH;
 }
 
+bool justPressed(int key) {
+  return currStates[key] == HIGH && prevStates[key] == LOW;
+}
+
 void loop()
 {
   // read the state of the pushbutton value:
@@ -58,13 +62,13 @@ void loop()
 
   frame[y][x] = 0;
 
-  if (justReleased(UP)) {
+  if (justPressed(UP)) {
     dir = UP;
-  }else if (justReleased(DOWN)) {
+  }else if (justPressed(DOWN)) {
     dir = DOWN;
-  }else if (justReleased(LEFT)) {
+  }else if (justPressed(LEFT)) {
     dir = LEFT;
-  }else if (justReleased(RIGHT)) {
+  }else if (justPressed(RIGHT)) {
     dir = RIGHT;
   }
 
