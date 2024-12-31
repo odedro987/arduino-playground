@@ -27,7 +27,9 @@ byte frame[HEIGHT][WIDTH] = {
 
 int x = 0;
 int y = 0;
+int dir = UP;
 
+unsigned long timer = millis();
 
 void setup()
 {
@@ -57,19 +59,31 @@ void loop()
   frame[y][x] = 0;
 
   if (justReleased(UP)) {
-    y = y - 1;
-    if(y < 0) y=HEIGHT-1;
+    dir = UP;
   }else if (justReleased(DOWN)) {
-    y = y + 1;
-    if(y >= HEIGHT) y=0;
-  }
-  
-  if (justReleased(LEFT)) {
-    x = x - 1;
-    if(x < 0) x=WIDTH-1;
+    dir = DOWN;
+  }else if (justReleased(LEFT)) {
+    dir = LEFT;
   }else if (justReleased(RIGHT)) {
-   x = x + 1;
-  if(x >= WIDTH) x=0;
+    dir = RIGHT;
+  }
+
+
+  if(millis() - timer >= 250) {
+    if(dir == UP) {
+      y = y - 1;
+      if(y < 0) y=HEIGHT-1;
+    }else if(dir == DOWN) {
+      y = y + 1;
+      if(y >= HEIGHT) y=0;
+    }else if(dir == LEFT) {
+      x = x - 1;
+      if(x < 0) x=WIDTH-1;
+    }else if(dir == RIGHT) {
+      x = x + 1;
+      if(x >= WIDTH) x=0;
+    }
+    timer = millis();
   }
 
   frame[y][x] = 1;
