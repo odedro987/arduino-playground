@@ -3,9 +3,14 @@ byte cathodes[] = {13,3,4,10,6,11,15,16};
 
 byte pinMap[] = {6,5,A5,A4,4,A3,3,2,7,A2,13,8,12,9,11,10};
 
-void lightLED(byte id) {
+void lightLedId(byte id) {
   digitalWrite(pinMap[anodes[id / 8] - 1], HIGH);
   digitalWrite(pinMap[cathodes[id % 8] - 1], LOW);
+}
+
+void lightLed(byte anode, byte cathode) {
+  digitalWrite(pinMap[anodes[anode] - 1], HIGH);
+  digitalWrite(pinMap[cathodes[cathode] - 1], LOW);
 }
 
 void setup() {
@@ -50,12 +55,13 @@ void resetMatrix() {
 
 void lightMatrix(byte matrix[8][8]) {
   for(int i = 0; i < 8; i++) {
+    resetMatrix();
     for(int j = 0; j < 8; j++) {
-      resetMatrix();
       if(matrix[i][j] == 1) {
-        lightLED(i * 8 + j);
+        lightLed(i, j);
       }
     }
+    delay(1);
   }
 }
 
