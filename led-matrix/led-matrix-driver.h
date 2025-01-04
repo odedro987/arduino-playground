@@ -12,15 +12,18 @@ extern byte pinMap[16];
 class Matrix {
   public:
     Matrix();
+    ~Matrix();
     void setupPins();
     void resetMatrix();
-    void lightMatrix(byte matrix[8][8]);
+    void lightMatrix();
     void scrollFrame(int offset);
+    void draw(byte matrix[8][8]);
   private:
     void lightLedId(byte id);
     void lightLed(byte anode, byte cathode);
 
     byte frame[8][8];
+    unsigned long timer;
 };
 
 #endif

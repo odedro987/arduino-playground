@@ -5,7 +5,12 @@ byte cathodes[] = {13,3,4,10,6,11,15,16};
 byte pinMap[] = {6,5,A5,A4,4,A3,3,2,7,A2,13,8,12,9,11,10};
 
 Matrix::Matrix() {
+  timer = 0;
+  memset(frame, 0, sizeof(frame));
+}
 
+Matrix::~Matrix() {
+  
 }
 
 void Matrix::lightLedId(byte id) {
@@ -34,16 +39,20 @@ void Matrix::resetMatrix() {
   }
 }
 
-void Matrix::lightMatrix(byte matrix[8][8]) {
+void Matrix::lightMatrix() {
   for(int i = 0; i < 8; i++) {
     resetMatrix();
     for(int j = 0; j < 8; j++) {
-      if(matrix[i][j] == 1) {
+      if(frame[i][j] == 1) {
         lightLed(i, j);
       }
     }
     delay(1);
   }
+}
+
+void Matrix::draw(byte matrix[8][8]) {
+  memcpy(&frame[0][0], &matrix[0][0], 8*8*sizeof(byte));
 }
 
 void Matrix::scrollFrame(int offset) {

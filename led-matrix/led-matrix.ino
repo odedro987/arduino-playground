@@ -55,5 +55,6 @@ void loop() {
     index = (index + 1) % 26;
   }
   // getFrame(millis() - timer);
-  matrix.lightMatrix(letters[index]);
+  matrix.draw(letters[index]);
+  matrix.lightMatrix();
 }
