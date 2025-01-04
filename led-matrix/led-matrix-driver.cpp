@@ -6,7 +6,7 @@ byte pinMap[] = {6,5,A5,A4,4,A3,3,2,7,A2,13,8,12,9,11,10};
 
 Matrix::Matrix() {
   timer = 0;
-  memset(frame, 0, sizeof(frame));
+  memset(buffer, 0, sizeof(buffer));
 }
 
 Matrix::~Matrix() {
@@ -23,13 +23,13 @@ void Matrix::lightLed(byte anode, byte cathode) {
   digitalWrite(pinMap[cathodes[cathode] - 1], LOW);
 }
 
-void Matrix::setupPins() {
+void Matrix::begin() {
   for(int i = 0; i < sizeof(pinMap) / sizeof(byte); i++){
     pinMode(pinMap[i], OUTPUT);
   }
 }
 
-void Matrix::resetMatrix() {
+void Matrix::reset() {
   for(int i = 0; i < 8; i++) {
     digitalWrite(pinMap[anodes[i] - 1], LOW);
   }
@@ -39,11 +39,11 @@ void Matrix::resetMatrix() {
   }
 }
 
-void Matrix::lightMatrix() {
+void Matrix::render() {
   for(int i = 0; i < 8; i++) {
-    resetMatrix();
+    reset();
     for(int j = 0; j < 8; j++) {
-      if(frame[i][j] == 1) {
+      if(buffer[i][j] == 1) {
         lightLed(i, j);
       }
     }
@@ -52,7 +52,7 @@ void Matrix::lightMatrix() {
 }
 
 void Matrix::draw(byte matrix[8][8]) {
-  memcpy(&frame[0][0], &matrix[0][0], 8*8*sizeof(byte));
+  memcpy(&buffer[0][0], &matrix[0][0], 8*8*sizeof(byte));
 }
 
 void Matrix::scrollFrame(int offset) {

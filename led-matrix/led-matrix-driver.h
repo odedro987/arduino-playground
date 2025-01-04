@@ -13,16 +13,16 @@ class Matrix {
   public:
     Matrix();
     ~Matrix();
-    void setupPins();
-    void resetMatrix();
-    void lightMatrix();
+    void begin();
+    void reset();
+    void render();
     void scrollFrame(int offset);
     void draw(byte matrix[8][8]);
   private:
     void lightLedId(byte id);
     void lightLed(byte anode, byte cathode);
 
-    byte frame[8][8];
+    byte buffer[8][8];
     unsigned long timer;
 };
 

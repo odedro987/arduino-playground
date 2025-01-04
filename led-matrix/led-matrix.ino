@@ -5,7 +5,7 @@ Matrix matrix;
 
 void setup() {
   // Serial.begin(9600);
-  matrix.setupPins();
+  matrix.begin();
 }
 
 byte heart[8][8] = {
@@ -56,5 +56,5 @@ void loop() {
   }
   // getFrame(millis() - timer);
   matrix.draw(letters[index]);
-  matrix.lightMatrix();
+  matrix.render();
 }
