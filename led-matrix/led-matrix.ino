@@ -1,11 +1,11 @@
 #include "led-matrix-driver.h"
-#include "letters.h"
 
 Matrix matrix;
 
 void setup() {
-  // Serial.begin(9600);
+  Serial.begin(9600);
   matrix.begin();
+  matrix.displayText("EYLONLOKEK", 8000, 1);
 }
 
 byte heart[8][8] = {
@@ -50,11 +50,11 @@ unsigned long timer = millis();
 int index = 0;
 
 void loop() {
-  if(millis() - timer >= LENGTH) {
-    timer = millis();
-    index = (index + 1) % 26;
-  }
+  // if(millis() - timer >= LENGTH) {
+  //   timer = millis();
+  //   index = (index + 1) % 26;
+  // }
   // getFrame(millis() - timer);
-  matrix.draw(letters[index]);
+  // matrix.draw(letters[index]);
   matrix.render();
 }
