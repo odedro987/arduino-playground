@@ -1,8 +1,10 @@
+#include <stdint.h>
+
 #define CLK_PIN 3
 #define LATCH_PIN 4
 #define SER_PIN 5
 
-byte leds = 0b10000000;
+uint16_t leds = 0b1000000000000000;
 
 void setup() {
   Serial.begin(9600);
@@ -12,9 +14,14 @@ void setup() {
 }
 
 
-void writeBytes(byte data) {
+void writeBytes(uint16_t data) {
+  uint8_t chunks[2] = { (data >> 8) & 0xff, data & 0xff };
+  char test[1024];
+  sprintf(test, "data: %d, c1: %d, c2: %d", data, chunks[0], chunks[1]);
+  Serial.println(test);
   digitalWrite(LATCH_PIN, LOW);
-  shiftOut(SER_PIN, CLK_PIN, MSBFIRST, data);
+  shiftOut(SER_PIN, CLK_PIN, LSBFIRST, chunks[0]);
+  shiftOut(SER_PIN, CLK_PIN, LSBFIRST, chunks[1]);
   digitalWrite(LATCH_PIN, HIGH);
 }
 
@@ -23,14 +30,13 @@ unsigned long timer = millis();
 void loop() {
   if(millis() - timer <= 2000) {
     unsigned long step = (millis() - timer) / (2000 / 16);
-    leds = 0b10000000 >> step;
+    leds = 0b1000000000000000 >> step;
     writeBytes(leds);
   }else {
     unsigned long step = (millis() - timer - 2000) / (2000 / 16);
-    leds = 0b10000000;
+    leds = 0b1000000000000000;
     for(int i = 1; i <= step; i++){
-      leds = (leds >> 1) + 0b10000000;
-      Serial.println(leds, BIN);
+      leds = (leds >> 1) + 0b1000000000000000;
     }
     writeBytes(leds);
   }
